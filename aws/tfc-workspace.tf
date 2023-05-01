@@ -5,6 +5,11 @@ provider "tfe" {
   hostname = var.tfc_hostname
 }
 
+resource "tfe_project" "my_project" {
+  name = var.tfc_project_name
+  organization = var.tfc_organization_name
+}
+
 # Runs in this workspace will be automatically authenticated
 # to AWS with the permissions set in the AWS policy.
 #
@@ -12,6 +17,7 @@ provider "tfe" {
 resource "tfe_workspace" "my_workspace" {
   name         = var.tfc_workspace_name
   organization = var.tfc_organization_name
+  project_id   = tfe_project.my_project.id
 }
 
 # The following variables must be set to allow runs
